@@ -25,7 +25,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
-
+ 
                 {{-- Form Tambah Stiker --}}
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold">Tambah Stiker</h3>
@@ -166,7 +166,7 @@
 
             const materialRow = `
             <div class="flex gap-x-4 items-center">
-                                    <input type="checkbox" name="" id="" >
+                                    <input type="checkbox" name="bahan-[${index}]" id="" >
     <div class='flex-1'>
         <label for="materials[${index}][name]" class="block">Nama Bahan</label>
         <input type="text" name="materials[${index}][name]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>
@@ -179,6 +179,8 @@
             container.insertAdjacentHTML('beforeend', materialRow);
         });
 
+        
+
         // Tambahkan Laminasi
         document.getElementById('add-lamination').addEventListener('click', () => {
             const container = document.getElementById('laminations-container');
@@ -186,7 +188,7 @@
 
             const laminationRow = `
             <div class="flex gap-x-4 items-center">
-                                    <input type="checkbox" name="" id="" >
+                                    <input type="checkbox" name="bahan-[${index}]" id="" >
     <div class='flex-1'>
         <label for="laminations[${index}][name]" class="block">Nama Laminasi</label>
         <input type="text" name="laminations[${index}][name]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>
