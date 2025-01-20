@@ -21,6 +21,22 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('categories', 'products'));
     }
 
+    public function kategori()
+    {
+        $categories = Category::all();
+        $products = Product::all();
+
+        return view('admin.kategori', compact('categories', 'products'));
+    }
+
+    public function stiker()
+    {
+        $categories = Category::all();
+        $products = Product::all();
+
+        return view('admin.stiker', compact('categories', 'products'));
+    }
+
     public function storeCategory(Request $request)
     {
         $request->validate([

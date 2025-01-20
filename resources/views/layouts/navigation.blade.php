@@ -26,6 +26,19 @@
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.kategori')" :active="request()->routeIs('welcome')">
+                        {{ __('Kategori') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('admin.stiker')" :active="request()->routeIs('welcome')">
+                        {{ __('Stiker') }}
+                    </x-nav-link>
+                </div>
+
+
                 {{-- <!-- Additional Navigation Links for User -->
                 @if (Auth::user()->usertype != 'admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">

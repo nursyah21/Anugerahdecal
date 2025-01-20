@@ -31,6 +31,11 @@ Route::middleware(['auth', 'userMiddleware'])->group(function () {
 
 Route::middleware(['auth', 'adminMiddleware'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    
+    Route::get('/admin/kategori', [AdminController::class, 'kategori'])->name('admin.kategori');
+    Route::get('/admin/stiker', [AdminController::class, 'stiker'])->name('admin.stiker');
+    
+    
     // Rute untuk menyimpan kategori
     Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
 
