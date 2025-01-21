@@ -35,8 +35,6 @@
                         <div class="flex gap-4 items-center">
                             <input type="text" name="name" placeholder="Bahan"
                                 class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                            <input type="number" name="price" placeholder="Harga"
-                                class="w-full border-gray-300 rounded-lg px-4 py-2" required>
                             <button type="submit"
                                 class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
                         </div>
@@ -47,7 +45,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     @foreach ($bahans as $bahan)
                     <div class="flex flex-col text-center items-center bg-gray-100 p-4 rounded-lg shadow">    
-                    {{$bahan->name}} <br /> Rp{{number_format($bahan->price)}}
+                    {{$bahan->name}}
                        <form action="{{ route('admin.deleteBahan', $bahan->id) }}" method="POST"
                             onsubmit="return confirm('Yakin ingin menghapus bahan ini?');" class="mt-2">
                             @csrf

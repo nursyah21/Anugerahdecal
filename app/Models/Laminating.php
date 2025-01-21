@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Laminating extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name'];
 }

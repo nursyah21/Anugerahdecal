@@ -35,8 +35,6 @@
                             <div class="flex gap-4 items-center">
                             <input type="text" name="name" placeholder="Laminating"
                                 class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                            <input type="number" name="price" placeholder="Harga"
-                                class="w-full border-gray-300 rounded-lg px-4 py-2" required>
                             <button type="submit"
                                 class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
                         </div>
@@ -48,7 +46,7 @@
                     @foreach ($laminatings as $laminating)
                     <div class="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow">                    
                         <span class="text-center mt-2 ">
-                            {{ $laminating->name }} <br /> {{number_format($laminating->price) }}
+                            {{ $laminating->name }}
                         </span>
                         <form action="{{ route('admin.deleteLaminating', $laminating->id) }}" method="POST"
                             onsubmit="return confirm('Yakin ingin menghapus laminating ini?');" class="mt-2">

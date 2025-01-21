@@ -58,15 +58,13 @@ class AdminController extends Controller
     public function storeBahan(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required',
+            'name' => 'required|string|max:255'
         ]);
 
         // $imagePath = $request->file('image') ? $request->file('image')->store('categories', 'public') : null;
 
         Bahan::create([
-            'name' => $request->name,
-            'price' => $request->price,
+            'name' => $request->name
         ]);
 
         return back();
@@ -75,15 +73,13 @@ class AdminController extends Controller
     public function storeLaminating(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required',
+            'name' => 'required|string|max:255'
         ]);
 
         // $imagePath = $request->file('image') ? $request->file('image')->store('categories', 'public') : null;
 
         Laminating::create([
-            'name' => $request->name,
-            'price' => $request->price,
+            'name' => $request->name
         ]);
 
         return back();

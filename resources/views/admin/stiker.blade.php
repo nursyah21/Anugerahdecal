@@ -69,24 +69,34 @@
                         {{-- Bahan Stiker --}}
                         <div>
                             <h3 class="font-semibold">Bahan Stiker</h3>
-                            
-                            @foreach ($bahans as $bahan)
-                            <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
-                                <input type="checkbox" name="bahan[{{$bahan->id}}]" /> <br/>
-                                {{$bahan->name}} <br/> {{$bahan->price}}
+                            <div class="flex gap-x-4">
+                                @foreach ($bahans as $bahan)
+                                <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
+                                    <input type="checkbox" name="bahan[{{$bahan->id}}]" onclick="addNewBahan(this, '{{$bahan->id}}','{{$bahan->name}}')" /> <br />
+                                    {{$bahan->name}}
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
+
+                            <div id="list-stiker" class="my-4">
+
+                            </div>
                         </div>
 
                         {{-- Laminasi --}}
                         <div>
                             <h3 class="font-semibold">Laminasi</h3>
-                            @foreach ($laminatings as $laminating)
-                            <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
-                                <input type="checkbox" name="laminating[{{$laminating->id}}]" /> <br/>
-                                {{$laminating->name}} <br/> {{$laminating->price}}
+                            <div class="flex gap-4">
+                                @foreach ($laminatings as $laminating)
+                                <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
+                                    <input type="checkbox" name="laminating[{{$laminating->id}}]" onclick="addNewLaminating(this, '{{$laminating->id}}','{{$laminating->name}}')" /> <br />
+                                    {{$laminating->name}}
+                                </div>
+                                @endforeach
                             </div>
-                            @endforeach
+                            <div id="list-laminating" class="my-4">
+
+                            </div>
                         </div>
 
                         {{-- Deskripsi --}}
@@ -132,6 +142,44 @@
 
 
     <script>
+        function addNewBahan(checkbox, id, name) {
+            // console.log(checkbox.checked)
+            if(!checkbox.checked){
+                document.getElementById(`stiker-${id}`).remove()
+                return
+            }
+            const container = document.getElementById('list-stiker')
+            const index = container.children.length;
+
+            const data = `
+                <div class="flex gap-4 mb-4" id="stiker-${id}">
+                    <input type="text" value="${name}" name="bahan-name-${index}" class="flex-1 border-gray-300 rounded-lg px-4 py-2" disabled />
+                    <input type="number" placeholder="harga" name="bahan-harga-${index}"
+                        class="flex-1 border-gray-300 rounded-lg px-4 py-2" required>
+                </div>
+            `
+            container.insertAdjacentHTML('beforeend', data)
+        }
+
+        function addNewLaminating(checkbox, id, name) {
+            // console.log(checkbox.checked)
+            if(!checkbox.checked){
+                document.getElementById(`laminating-${id}`).remove()
+                return
+            }
+            const container = document.getElementById('list-laminating')
+            const index = container.children.length;
+
+            const data = `
+                <div class="flex gap-4 mb-4" id="laminating-${id}">
+                    <input type="text" value="${name}" name="bahan-name-${index}" class="flex-1 border-gray-300 rounded-lg px-4 py-2" disabled />
+                    <input type="number" placeholder="harga" name="bahan-harga-${index}"
+                        class="flex-1 border-gray-300 rounded-lg px-4 py-2" required>
+                </div>
+            `
+            container.insertAdjacentHTML('beforeend', data)
+        }
+
         // Tambahkan Material
         document.getElementById('add-material').addEventListener('click', () => {
             const container = document.getElementById('materials-container');
