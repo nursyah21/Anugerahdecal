@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Admin Dashboard') }}
-        </h2>        
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -11,21 +11,21 @@
 
                 {{-- Pesan Error dan Sukses --}}
                 @if ($errors->any())
-                    <div class="bg-red-100 text-red-600 p-4 rounded-lg mb-4">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                <div class="bg-red-100 text-red-600 p-4 rounded-lg mb-4">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
                 @endif
 
                 @if (session('success'))
-                    <div class="bg-green-100 text-green-600 p-4 rounded-lg mb-4">
-                        {{ session('success') }}
-                    </div>
+                <div class="bg-green-100 text-green-600 p-4 rounded-lg mb-4">
+                    {{ session('success') }}
+                </div>
                 @endif
- 
+
                 {{-- Form Tambah Stiker --}}
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold">Tambah Stiker</h3>
@@ -47,7 +47,7 @@
                                 class="w-full border-gray-300 rounded-lg px-4 py-2" required>
                                 <option value="" disabled selected>Pilih Kategori</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -69,51 +69,24 @@
                         {{-- Bahan Stiker --}}
                         <div>
                             <h3 class="font-semibold">Bahan Stiker</h3>
-                            <div id="materials-container" class="space-y-2">
-                                <div class="flex gap-x-4 items-center">
-                                    <input type="checkbox" name="" id="">
-                                    <div class="flex-1">
-
-                                        <label for="materials[0][name]" class="block">Nama Bahan</label>
-                                        <input type="text" name="materials[0][name]"
-                                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                                    </div>
-                                    <div class="flex-1">
-                                        <label for="materials[0][price]" class="block">Harga Bahan</label>
-                                        <input type="number" name="materials[0][price]"
-                                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                                    </div>
-                                </div>
+                            
+                            @foreach ($bahans as $bahan)
+                            <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
+                                <input type="checkbox" name="bahan[{{$bahan->id}}]" /> <br/>
+                                {{$bahan->name}} <br/> {{$bahan->price}}
                             </div>
-                            <button type="button" id="add-material"
-                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mt-2">
-                                Tambah Bahan
-                            </button>
+                            @endforeach
                         </div>
 
                         {{-- Laminasi --}}
                         <div>
                             <h3 class="font-semibold">Laminasi</h3>
-
-                            <div id="laminations-container" class="space-y-2">
-                                <div class="flex gap-x-4 items-center">
-                                    <input type="checkbox" name="" id="">
-                                    <div class='flex-1'>
-                                        <label for="laminations[0][name]" class="block">Nama Laminasi</label>
-                                        <input type="text" name="laminations[0][name]"
-                                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                                    </div>
-                                    <div class="flex-1">
-                                        <label for="laminations[0][price]" class="block">Harga Laminasi</label>
-                                        <input type="number" name="laminations[0][price]"
-                                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                                    </div>
-                                </div>
+                            @foreach ($laminatings as $laminating)
+                            <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
+                                <input type="checkbox" name="laminating[{{$laminating->id}}]" /> <br/>
+                                {{$laminating->name}} <br/> {{$laminating->price}}
                             </div>
-                            <button type="button" id="add-lamination"
-                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mt-2">
-                                Tambah Laminasi
-                            </button>
+                            @endforeach
                         </div>
 
                         {{-- Deskripsi --}}
@@ -132,25 +105,25 @@
             {{-- Daftar Stiker --}}
             <div class="grid grid-cols-1 mt-4 md:grid-cols-3 gap-6">
                 @foreach ($products as $product)
-                    <div class="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow">
-                        <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}"
-                            class="w-full h-40 object-contain rounded-lg">
-                        <div class="text-center mt-4">
-                            <h3 class="font-semibold">{{ $product->name }}</h3>
-                            <p class="text-gray-600">{{ $product->description }}</p>
-                        </div>
-                        <div class="flex gap-2 mt-4">
-                            {{-- <a href="{{ route('admin.editProduct', $product->id) }}"
-                                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">UPDATE</a> --}}
-                            <form action="{{ route('admin.deleteProduct', $product->id) }}" method="POST"
-                                onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">HAPUS</button>
-                            </form>
-                        </div>
+                <div class="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow">
+                    <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}"
+                        class="w-full h-40 object-contain rounded-lg">
+                    <div class="text-center mt-4">
+                        <h3 class="font-semibold">{{ $product->name }}</h3>
+                        <p class="text-gray-600">{{ $product->description }}</p>
                     </div>
+                    <div class="flex gap-2 mt-4">
+                        {{-- <a href="{{ route('admin.editProduct', $product->id) }}"
+                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">UPDATE</a> --}}
+                        <form action="{{ route('admin.deleteProduct', $product->id) }}" method="POST"
+                            onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">HAPUS</button>
+                        </form>
+                    </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -166,20 +139,19 @@
 
             const materialRow = `
             <div class="flex gap-x-4 items-center">
-                                    <input type="checkbox" name="bahan-[${index}]" id="" >
-    <div class='flex-1'>
-        <label for="materials[${index}][name]" class="block">Nama Bahan</label>
-        <input type="text" name="materials[${index}][name]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-    </div>
-    <div class='flex-1'>
-        <label for="materials[${index}][price]" class="block">Harga Bahan</label>
-        <input type="number" name="materials[${index}][price]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-    </div>
-</div>`;
+                <div class='flex-1'>
+                    <label for="materials[${index}][name]" class="block">Nama Bahan</label>
+                    <input type="text" name="materials[${index}][name]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>
+                </div>
+                <div class='flex-1'>
+                    <label for="materials[${index}][price]" class="block">Harga Bahan</label>
+                    <input type="number" name="materials[${index}][price]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>
+                </div>
+            </div>`;
             container.insertAdjacentHTML('beforeend', materialRow);
         });
 
-        
+
 
         // Tambahkan Laminasi
         document.getElementById('add-lamination').addEventListener('click', () => {
@@ -188,7 +160,6 @@
 
             const laminationRow = `
             <div class="flex gap-x-4 items-center">
-                                    <input type="checkbox" name="bahan-[${index}]" id="" >
     <div class='flex-1'>
         <label for="laminations[${index}][name]" class="block">Nama Laminasi</label>
         <input type="text" name="laminations[${index}][name]" class="w-full border-gray-300 rounded-lg px-4 py-2" required>

@@ -13,13 +13,15 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'brand',
+        // 'brand',
         'image',
         'category_id',
-        'material',          // Kolom untuk bahan
-        'material_price',    // Kolom untuk harga bahan
-        'lamination',        // Kolom untuk laminasi
-        'lamination_price',  // Kolom untuk harga laminasi
+        'laminating',
+        'bahan'
+        // 'material',          // Kolom untuk bahan
+        // 'material_price',    // Kolom untuk harga bahan
+        // 'lamination',        // Kolom untuk laminasi
+        // 'lamination_price',  // Kolom untuk harga laminasi
     ];
 
     // Relasi ke kategori

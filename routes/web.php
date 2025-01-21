@@ -34,8 +34,12 @@ Route::middleware(['auth', 'adminMiddleware'])->group(function () {
     
     Route::get('/admin/kategori', [AdminController::class, 'kategori'])->name('admin.kategori');
     Route::get('/admin/stiker', [AdminController::class, 'stiker'])->name('admin.stiker');
+    Route::get('/admin/laminating', [AdminController::class, 'laminating'])->name('admin.laminating');
+    Route::get('/admin/bahan', [AdminController::class, 'bahan'])->name('admin.bahan');
     
-    
+    Route::post('/admin/bahan', [AdminController::class, 'storeBahan'])->name('admin.storeBahan');
+    Route::post('/admin/laminating', [AdminController::class, 'storeLaminating'])->name('admin.storeLaminating');
+
     // Rute untuk menyimpan kategori
     Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
 
@@ -55,6 +59,9 @@ Route::middleware(['auth', 'adminMiddleware'])->group(function () {
     Route::delete('/admin/products/{id}', [AdminController::class, 'deleteProduct'])->name('admin.deleteProduct');
     Route::delete('/admin/materials/{id}', [AdminController::class, 'deleteMaterial'])->name('admin.deleteMaterial');
     Route::delete('/admin/laminations/{id}', [AdminController::class, 'deleteLamination'])->name('admin.deleteLamination');
+    
+    Route::delete('/admin/bahan/{id}', [AdminController::class, 'deleteBahan'])->name('admin.deleteBahan');
+    Route::delete('/admin/laminating/{id}', [AdminController::class, 'deleteLaminating'])->name('admin.deleteLaminating');
 });
 
 Route::middleware('auth')->group(function () {

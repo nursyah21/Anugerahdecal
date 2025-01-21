@@ -4,8 +4,9 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
+                <!-- href="{{ Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard') }}"> -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard') }}">
+                    <a  href="/" >
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
@@ -20,20 +21,32 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <!-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')">
                         {{ __('Home') }}
                     </x-nav-link>
-                </div>
+                </div> -->
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.kategori')" :active="request()->routeIs('welcome')">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
+                    <x-nav-link :class="Auth::user()->usertype == 'admin' ? '' : 'hidden'" :href="route('admin.kategori')" :active="request()->routeIs('admin.kategori')">
                         {{ __('Kategori') }}
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
+                    <x-nav-link :class="Auth::user()->usertype == 'admin' ? '' : 'hidden'" :href="route('admin.bahan')" :active="request()->routeIs('admin.bahan')">
+                        {{ __('Bahan') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex" >
+                    <x-nav-link :class="Auth::user()->usertype == 'admin' ? '' : 'hidden'" :href="route('admin.laminating')" :active="request()->routeIs('admin.laminating')">
+                        {{ __('Laminating') }}
+                    </x-nav-link>
+                </div>
+
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.stiker')" :active="request()->routeIs('welcome')">
+                    <x-nav-link :class="Auth::user()->usertype == 'admin' ? '' : 'hidden'" :href="route('admin.stiker')" :active="request()->routeIs('admin.stiker')">
                         {{ __('Stiker') }}
                     </x-nav-link>
                 </div>
@@ -86,9 +99,9 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <!-- <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
-                        </x-dropdown-link>
+                        </x-dropdown-link> -->
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -136,9 +149,9 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <!-- <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
-                </x-responsive-nav-link>
+                </x-responsive-nav-link> -->
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

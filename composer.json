@@ -1,5 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
+    "repositories": [ { "type": "composer", "url": "https://packagist.org" } ],
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",

@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Nama produk
-            $table->string('brand'); // Merek produk
-            $table->string('material'); // Material produk
-            $table->decimal('material_price', 10, 2); // Harga material
-            $table->string('lamination'); // Laminasi produk
-            $table->decimal('lamination_price', 10, 2); // Harga laminasi
+            $table->string('bahan');
+            $table->string('laminating');
+            // $table->string('brand'); // Merek produk
+            // $table->string('material'); // Material produk
+            // $table->decimal('material_price', 10, 2); // Harga material
+            // $table->string('lamination'); // Laminasi produk
+            // $table->decimal('lamination_price', 10, 2); // Harga laminasi
             $table->text('description'); // Deskripsi produk
             $table->string('image'); // Gambar produk
             $table->foreignId('category_id')->constrained()->onDelete('cascade'); // Kategori produk
