@@ -116,7 +116,7 @@
             <div class="grid grid-cols-1 mt-4 md:grid-cols-3 gap-6">
                 @foreach ($products as $product)
                 <div class="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow">
-                    <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}"
+                    <img src="{{ Storage::url($product->image) }}" id="zoom" alt="{{ $product->name }}"
                         class="w-full h-40 object-contain rounded-lg">
                     <div class="text-center mt-4">
                         <h3 class="font-semibold">{{ $product->name }}</h3>
@@ -142,9 +142,11 @@
 
 
     <script>
+        
+
         function addNewBahan(checkbox, id, name) {
             // console.log(checkbox.checked)
-            if(!checkbox.checked){
+            if (!checkbox.checked) {
                 document.getElementById(`stiker-${id}`).remove()
                 return
             }
@@ -163,7 +165,7 @@
 
         function addNewLaminating(checkbox, id, name) {
             // console.log(checkbox.checked)
-            if(!checkbox.checked){
+            if (!checkbox.checked) {
                 document.getElementById(`laminating-${id}`).remove()
                 return
             }

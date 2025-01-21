@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Bahan;
+use App\Models\Category;
+use App\Models\Laminating;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -30,5 +32,23 @@ class DatabaseSeeder extends Seeder
             'password' => 'password'
         ]);
 
+        Category::create([
+            'name' => 'kat1',
+            'image' => '#'
+        ]);
+
+        Bahan::create([
+            'name' => 'racing',
+        ]);
+        Bahan::create([
+            'name' => 'sport',
+        ]);
+
+        Laminating::create([
+            'name' => 'kat1',
+        ]);
+        Laminating::create([
+            'name' => 'kat2',
+        ]);
     }
 }
