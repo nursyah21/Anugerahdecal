@@ -19,22 +19,23 @@ class CategoryController extends Controller
         $category = Category::with('products')->findOrFail($id);
 
         // Ambil semua brand yang ada dalam kategori ini beserta count produk per brand
-        $brands = Product::where('category_id', $category->id)
-            ->select('brand')
-            ->groupBy('brand')
-            ->selectRaw('count(*) as count')
-            ->get();
+        // $brands = Product::where('category_id', $category->id)
+        //     ->select('brand')
+        //     ->groupBy('brand')
+        //     ->selectRaw('count(*) as count')
+        //     ->get();
 
-        // Jika ada parameter brand, filter produk berdasarkan brand
-        if ($request->has('brand')) {
-            $products = Product::where('category_id', $category->id)
-                ->where('brand', $request->brand)
-                ->get();
-        } else {
-            // Jika tidak ada parameter brand, ambil semua produk dalam kategori
-            $products = $category->products;
-        }
-
-        return view('category.show', compact('category', 'brands', 'products'));
+        // // Jika ada parameter brand, filter produk berdasarkan brand
+        // if ($request->has('brand')) {
+        //     $products = Product::where('category_id', $category->id)
+        //         ->where('brand', $request->brand)
+        //         ->get();
+        // } else {
+        //     // Jika tidak ada parameter brand, ambil semua produk dalam kategori
+        // }
+        $products = $category->products;
+        
+        return view('category.show', compact('category', 'products'));
+        // , compact('category', 'brands', 'products'));
     }
 }

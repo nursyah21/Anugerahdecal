@@ -120,6 +120,7 @@
                         class="w-full h-40 object-contain rounded-lg">
                     <div class="text-center mt-4">
                         <h3 class="font-semibold">{{ $product->name }}</h3>
+                        <h3 class="font-semibold">{{ @count_price($product->bahan) }}</h3>
                         <p class="text-gray-600">{{ $product->description }}</p>
                     </div>
                     <div class="flex gap-2 mt-4">
@@ -142,7 +143,10 @@
 
 
     <script>
-        
+        function countPrice(data){
+            console.log(data)
+            return '1000'
+        }
 
         function addNewBahan(checkbox, id, name) {
             // console.log(checkbox.checked)
@@ -155,8 +159,8 @@
 
             const data = `
                 <div class="flex gap-4 mb-4" id="stiker-${id}">
-                    <input type="text" value="${name}" name="bahan-name-${index}" class="flex-1 border-gray-300 rounded-lg px-4 py-2" disabled />
-                    <input type="number" placeholder="harga" name="bahan-harga-${index}"
+                    <input type="text" value="${name}" name="bahan_name[${index}]" class="flex-1 border-gray-300 rounded-lg px-4 py-2" disabled />
+                    <input type="number" placeholder="harga" name="bahan_price[${index}][${name}]"
                         class="flex-1 border-gray-300 rounded-lg px-4 py-2" required>
                 </div>
             `
@@ -174,8 +178,8 @@
 
             const data = `
                 <div class="flex gap-4 mb-4" id="laminating-${id}">
-                    <input type="text" value="${name}" name="bahan-name-${index}" class="flex-1 border-gray-300 rounded-lg px-4 py-2" disabled />
-                    <input type="number" placeholder="harga" name="bahan-harga-${index}"
+                    <input type="text" value="${name}" name="laminating_name[${index}]" class="flex-1 border-gray-300 rounded-lg px-4 py-2" disabled />
+                    <input type="number" placeholder="harga" name="laminating_price[${index}][${name}]"
                         class="flex-1 border-gray-300 rounded-lg px-4 py-2" required>
                 </div>
             `

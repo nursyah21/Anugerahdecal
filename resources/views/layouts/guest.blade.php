@@ -11,8 +11,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -58,7 +59,7 @@
             </div>
 
             <!-- Search & Icons (Desktop) -->
-            <div class="flex items-center gap-4 hidden md:flex">
+            <div class=" items-center gap-4 hidden md:flex">
                 <!-- Search Bar -->
                 <div class="relative">
                     <input type="text" placeholder="Cari Produk"

@@ -117,16 +117,20 @@ class AdminController extends Controller
         ]);
 
         $bahans = '';
-        $laminatings = ''; 
-        $request->laminating;
-        if(!$request->bahan){
-            foreach($request->bahan as $idx => $bahan){
-                if($bahan == 'on') $bahans = $bahan+$idx .',';
+        $laminatings = '';
+
+        if($request->bahan_price){
+            foreach($request->bahan_price as $key => $data){
+                foreach($data as $price => $name){
+                    $bahans = $bahans.','.$name.';'.$price;                
+                }
             }
         }
-        if(!$request->laminating){
-            foreach($request->laminating as $idx => $laminating){
-                if($laminating == 'on') $laminatings = $laminating+$idx .',';
+        if($request->laminating_price){
+            foreach($request->laminating_price as $key => $data){
+                foreach($data as $price => $name){
+                    $laminatings = $laminatings.','.$name.';'.$price;                
+                }
             }
         }
 

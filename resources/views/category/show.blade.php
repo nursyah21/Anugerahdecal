@@ -25,20 +25,7 @@
             <!-- Sidebar untuk brand dalam kategori yang dipilih -->
             <div class="col-span-1 bg-white shadow-md rounded-lg p-6">
                 <h2 class="text-xl font-semibold mb-4 text-gray-900">KATEGORI STICKER {{ $category->name }}</h2>
-                <p class="text-gray-600 mb-2">Filter berdasarkan brand</p>
-
-                <ul class="space-y-3">
-                    @foreach ($brands as $brand)
-                        <li class="flex justify-between items-center">
-                            <a href="{{ url('category/' . $category->id . '?brand=' . $brand->brand) }}"
-                                class="text-gray-600 hover:text-[#009E84] hover:underline transition duration-300 w-full">
-                                <span class="flex-grow">{{ $brand->brand }}</span>
-                                <span class="text-sm text-gray-500">({{ $brand->count }})</span>
-                                <!-- Menampilkan count dalam kurung -->
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+                
             </div>
 
             <!-- Produk dari kategori yang dipilih dan dipfilter berdasarkan brand -->
