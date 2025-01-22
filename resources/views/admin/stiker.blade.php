@@ -120,7 +120,7 @@
                         class="w-full h-40 object-contain rounded-lg">
                     <div class="text-center mt-4">
                         <h3 class="font-semibold">{{ $product->name }}</h3>
-                        <h3 class="font-semibold">{{ @count_price($product->bahan) }}</h3>
+                        <h3 class="font-semibold">{{ count_range($product->bahan, $product->laminating) }}</h3>
                         <p class="text-gray-600">{{ $product->description }}</p>
                     </div>
                     <div class="flex gap-2 mt-4">
