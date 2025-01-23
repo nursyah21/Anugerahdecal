@@ -2,5 +2,6 @@
 
 - [x] checkbox laminasi & bahan
 - [x] pisahkan kategori stiker dan tambah stiker
-- [] gambar mesti zoom
+- [] pembayaran
+- [] login saat checkout
 - [] fix bug

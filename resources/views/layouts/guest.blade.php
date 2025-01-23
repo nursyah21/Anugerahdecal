@@ -47,7 +47,6 @@
             <!-- Navigation Links -->
             <div id="menu"
                 class="hidden flex-col md:flex md:flex-row md:items-center gap-4 absolute md:static top-full left-0 w-screen md:w-auto bg-[#009E84] md:bg-transparent shadow-md md:shadow-none z-50">
-                <!-- Link Navigasi -->
                 <a href="/"
                     class="block py-2 px-4 hover:bg-gray-200 hover:text-[#009E84] md:hover:bg-transparent md:hover:text-white">Home</a>
                 <a href="/cart"

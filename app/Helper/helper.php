@@ -1,6 +1,18 @@
 <?php
 
-// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
+
+function format_product($item)
+{
+    $data = explode(';', $item);
+    return $data[1].'  -  Rp'.number_format(intval($data[0]));
+}
+
+function get_price($item)
+{
+    $data = explode(';', $item);
+    return intval($data[0]);
+}
 
 function count_range($bahan, $laminating)
 {
@@ -25,5 +37,5 @@ function count_range($bahan, $laminating)
         }
     }
 
-    return number_format($min_bahan).'-'.number_format($max_bahan+$max_laminating);
+    return 'Rp'.number_format($min_bahan).'-'.number_format($max_bahan+$max_laminating);
 }

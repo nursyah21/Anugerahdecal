@@ -31,14 +31,18 @@
                 class="block py-2 px-4 hover:bg-gray-200 hover:text-[#009E84] md:hover:bg-transparent md:hover:text-white">Home</a>
             <a href="/cart"
                 class="block py-2 px-4 hover:bg-gray-200 hover:text-[#009E84] md:hover:bg-transparent md:hover:text-white">Keranjang</a>
-            <a href="#"
+            <a href="/transaksi"
+                class="block py-2 px-4 hover:bg-gray-200 hover:text-[#009E84] md:hover:bg-transparent md:hover:text-white">Transaksi</a>
+
+            <!-- <a href="#"
                 class="block py-2 px-4 hover:bg-gray-200 hover:text-[#009E84] md:hover:bg-transparent md:hover:text-white">Portofolio</a>
             <a href="#"
                 class="block py-2 px-4 hover:bg-gray-200 hover:text-[#009E84] md:hover:bg-transparent md:hover:text-white">Kontak</a>
+         -->
         </div>
 
         <!-- Search & Icons (Desktop) -->
-        <div class="flex items-center gap-4 hidden md:flex">
+        <div class="items-center gap-4 hidden md:flex">
             <!-- Search Bar -->
             <div class="relative">
                 <input type="text" placeholder="Cari Produk"
@@ -46,41 +50,53 @@
             </div>
 
             @if (Auth::check())
-                <a href="{{ Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard') }}"
-                    :active="{{ Auth::check() ? (Auth::user()->usertype == 'admin' ? 'request()->routeIs(\'admin.dashboard\')' : 'request()->routeIs(\'dashboard\')') : 'request()->routeIs(\'login\')' }}"
-                    class="relative hover:text-gray-200">
-                    <i class="fas fa-user text-2xl"></i>
-                </a>
+            @if (Auth::user()->usertype == 'admin')
+            <a href="{{ Auth::user()->usertype == 'admin' ? zroute('admin.dashboard') : route('dashboard') }}"
+                :active="{{ Auth::check() ? (Auth::user()->usertype == 'admin' ? 'request()->routeIs(\'admin.dashboard\')' : 'request()->routeIs(\'dashboard\')') : 'request()->routeIs(\'login\')' }}"
+                class="relative hover:text-gray-200">
+                <i class="fas fa-user text-2xl"></i>
+            </a>
             @else
-                <a href="{{ route('login') }}" class="relative hover:text-gray-200"
-                    title="Login untuk mengakses akun Anda">
-                    <i class="fas fa-lock text-2xl"></i>
-                </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
+            <a href="{{ route('logout') }}" :active="false"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+
+                <i class="fa-solid fa-right-from-bracket text-2xl"></i>
+            </a>
+            @endif
+
+            @else
+            <a href="{{ route('login') }}" class="relative hover:text-gray-200"
+                title="Login untuk mengakses akun Anda">
+                <i class="fas fa-lock text-2xl"></i>
+            </a>
             @endif
 
             <a href="{{ route('cart.index') }}" class="relative hover:text-gray-200">
                 <i class="fas fa-shopping-cart text-2xl"></i>
                 @if (Auth::check())
-                    @php
-                        $cart = Auth::user()->cart; // Mengambil keranjang dari pengguna yang sedang login
-                        $cartCount = 0;
+                @php
+                $cart = Auth::user()->cart; // Mengambil keranjang dari pengguna yang sedang login
+                $cartCount = 0;
 
-                        // Pastikan keranjang ada dan menghitung jumlah item
-                        if ($cart && $cart->items) {
-                            $cartCount = $cart->items->sum('quantity'); // Menghitung jumlah total item dalam keranjang
-                        }
-                    @endphp
+                // Pastikan keranjang ada dan menghitung jumlah item
+                if ($cart && $cart->items) {
+                $cartCount = $cart->items->sum('quantity'); // Menghitung jumlah total item dalam keranjang
+                }
+                @endphp
 
-                    @if ($cartCount > 0)
-                        <span id="cartCount"
-                            class="absolute -top-2 -right-2 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full">
-                            {{ $cartCount }}
-                        </span>
-                    @endif
+                @if ($cartCount > 0)
+                <span id="cartCount"
+                    class="absolute -top-2 -right-2 inline-block px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full">
+                    {{ $cartCount }}
+                </span>
+                @endif
                 @else
-                    @php
-                        $cartCount = 0; // Tidak ada keranjang jika pengguna belum login
-                    @endphp
+                @php
+                $cartCount = 0; // Tidak ada keranjang jika pengguna belum login
+                @endphp
                 @endif
             </a>
 

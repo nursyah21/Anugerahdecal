@@ -17,6 +17,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'userMiddleware'])->group(function () {
+
     Route::get('dashboard', [UserController::class, 'index'])->name('dashboard');
 
     // Rute untuk Pesanan
@@ -74,6 +75,10 @@ Route::middleware('auth')->group(function () {
     // Menghapus item dari keranjang
     Route::delete('/cart/remove/{cartItemId}', [CartController::class, 'removeCartItem'])->name('cart.remove');
     Route::get('/cart/count', [CartController::class, 'getCount']);
+
+    Route::post('/cart', [CartController::class, 'checkout'])->name('cart.checkout');
+
+    Route::get('/transaksi', [CartController::class, 'showTransaksi'])->name('transaksi.index');
 });
 
 Route::get('/category/{id}', [CategoryController::class, 'show']);

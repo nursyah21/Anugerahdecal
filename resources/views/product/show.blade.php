@@ -24,22 +24,22 @@
 
         <!-- Pemberitahuan Modal -->
         @if (session('success'))
-            <div id="successModal"
-                class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-                <div class="bg-white rounded-lg p-6 w-96">
-                    <div class="flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-green-600">Berhasil!</h3>
-                        <button onclick="closeModal()" class="text-gray-600 hover:text-gray-800">&times;</button>
-                    </div>
-                    <p class="mt-4 text-gray-700">{{ session('success') }}</p>
-                    <div class="mt-6 flex justify-end">
-                        <button onclick="closeModal()"
-                            class="bg-[#CF0101] text-white px-4 py-2 rounded-md hover:bg-red-600">
-                            Tutup
-                        </button>
-                    </div>
+        <div id="successModal"
+            class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
+            <div class="bg-white rounded-lg p-6 w-96">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-green-600">Berhasil!</h3>
+                    <button onclick="closeModal()" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <p class="mt-4 text-gray-700">{{ session('success') }}</p>
+                <div class="mt-6 flex justify-end">
+                    <button onclick="closeModal()"
+                        class="bg-[#CF0101] text-white px-4 py-2 rounded-md hover:bg-red-600">
+                        Tutup
+                    </button>
                 </div>
             </div>
+        </div>
         @endif
 
         <div id="warningModal"
@@ -70,8 +70,7 @@
 
                     <div class="w-full md:w-2/3">
                         <h1>{{ $product->name }}</h1>
-                        <p>Brand: {{ $product->brand }}</p>
-                        <p>Estimasi Harga: Rp 300.000 - 1.300.000</p>
+                        <p>Estimasi Harga: {{ count_range($product->bahan, $product->laminating) }}</p>
 
                         <div class="mt-6">
                             <!-- Form untuk menambahkan produk ke keranjang -->
@@ -82,28 +81,30 @@
                                 <!-- Pilihan Material -->
                                 <div class="mb-4">
                                     <label for="material" class="block font-semibold">Pilih Bahan:</label>
+
                                     <select name="material" id="material"
-                                        class="border-gray-300 rounded-lg px-4 py-2 w-full">
+                                        class="border-gray-300 rounded-lg px-4 py-2 w-full" required>
                                         <option value="" data-price="0">Pilih Bahan</option>
-                                        <option value="{{ $product->material }}"
-                                            data-price="{{ $product->material_price }}">
-                                            {{ $product->material }} - Rp
-                                            {{ number_format($product->material_price, 0, ',', '.') }}
+                                        @foreach(explode(',', substr($product->bahan, 1)) as $data)
+                                        <option value="{{ $data }}" data-price="{{ get_price($data) }}" >
+                                            {{ format_product($data) }}
                                         </option>
+                                        @endforeach
                                     </select>
                                 </div>
 
                                 <!-- Pilihan Laminasi -->
                                 <div class="mb-4">
                                     <label for="lamination" class="block font-semibold">Pilih Laminasi:</label>
+
                                     <select name="lamination" id="lamination"
-                                        class="border-gray-300 rounded-lg px-4 py-2 w-full">
+                                        class="border-gray-300 rounded-lg px-4 py-2 w-full" >
                                         <option value="" data-price="0">Pilih Laminasi</option>
-                                        <option value="{{ $product->lamination }}"
-                                            data-price="{{ $product->lamination_price }}">
-                                            {{ $product->lamination }} - Rp
-                                            {{ number_format($product->lamination_price, 0, ',', '.') }}
+                                        @foreach(explode(',', substr($product->laminating, 1)) as $data)
+                                        <option value="{{ $data }}" data-price="{{ get_price($data) }}" >
+                                            {{ format_product($data) }}
                                         </option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -114,7 +115,7 @@
                                         -
                                     </button>
                                     <input type="number" name="quantity" id="quantity" min="1" value="1"
-                                        class="text-center border-t border-b border-gray-300 w-12">
+                                        class="text-center border-t border-b border-gray-300 w-12 min-w-24">
                                     <button type="button" id="incrementQuantity"
                                         class="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-r hover:bg-gray-400">
                                         +
@@ -128,21 +129,20 @@
 
                                 <!-- Tombol Add to Cart dan Buy Now -->
                                 <div class="flex space-x-4">
-                                    @if (Auth::check())
-                                        <button type="submit" name="action" value="add_to_cart"
-                                            class="bg-[#CF0101] text-white px-4 py-2 rounded-md hover:bg-red-600">
-                                            + ADD TO CART
-                                        </button>
-                                        <button type="submit" name="action" value="buy_now"
-                                            class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-                                            BUY NOW
-                                        </button>
+                                    @if (Auth::user() && Auth::user()->usertype == 'user')
+                                    <button type="submit" name="action" value="add_to_cart"
+                                        class="bg-[#CF0101] text-white px-4 py-2 rounded-md hover:bg-red-600">
+                                        + ADD TO CART
+                                    </button>
+
+                                    <!-- <button type="submit" name="action" value="buy_now"
+                                        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                                        BUY NOW
+                                    </button> -->
                                     @else
-                                        <button type="button"
-                                            class="bg-gray-500 text-white px-4 py-2 rounded-md cursor-not-allowed"
-                                            onclick="alert('Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.')">
-                                            + ADD TO CART
-                                        </button>
+                                    <p class="text-red-600">
+                                        Anda Harus Login sebelum melakukan pembelian
+                                    </p>
                                     @endif
                                 </div>
 
@@ -242,6 +242,7 @@
 
             // Mengupdate total harga saat halaman dimuat pertama kali
             calculateTotalPrice();
+
         });
 
 
@@ -250,18 +251,6 @@
             document.getElementById('successModal').style.display = 'none';
         }
 
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            const isGuest = {{ Auth::check() ? 'false' : 'true' }}; // Cek apakah pengguna adalah guest
-
-            form.addEventListener('submit', function(event) {
-                if (isGuest) {
-                    event.preventDefault();
-                    showWarningModal();
-                }
-            });
-        });
 
         // Function to show warning modal
         function showWarningModal() {

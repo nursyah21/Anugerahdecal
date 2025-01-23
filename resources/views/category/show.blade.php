@@ -38,8 +38,7 @@
                                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                     class="w-full h-40 object-contain mb-4 rounded-lg transition-transform duration-300 hover:scale-110">
                                 <h3 class="text-lg font-semibold mb-2 text-gray-800">{{ $product->name }}</h3>
-                                <p class="text-gray-600 text-center text-sm">Rp
-                                    {{ number_format($product->base_price, 0, ',', '.') }}</p>
+                                <p class="text-gray-600 text-center text-sm">{{ count_range($product->bahan, $product->laminating) }}</p>
                             </a>
                         </div>
                     @endforeach
