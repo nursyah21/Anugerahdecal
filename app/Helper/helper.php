@@ -8,6 +8,36 @@ function format_product($item)
     return $data[1].'  -  Rp'.number_format(intval($data[0]));
 }
 
+function get_item_transaksi($item)
+{
+    $datas = explode(',', substr($item, 1));
+    $data = '';
+
+    
+
+    foreach($datas as $i){
+        $i = explode(';', $i);
+        $name = $i[0];
+        $bahan = $i[1];
+        $laminating = $i[2] == '' ? '' : '<br>laminating: '.$i[2];
+        $quantity = $i[3];
+        $total_price = $i[4];
+        $data = $name.
+        '<br>bahan: '.$bahan.
+        $laminating.
+        '<br>jml: '.$quantity
+        .'<br>';
+        // $data = $data.implode(' - ', $i).'<br>';
+    }
+
+    return $data;
+}
+
+function short_text($item)
+{
+    return substr($item, 0, 20);
+}
+
 function get_price($item)
 {
     $data = explode(';', $item);

@@ -70,7 +70,7 @@
                     <td class="p-2">{{$data->name}}</td>
                     <td class="p-2">{{$data->address}}</td>
                     <td class="p-2">{{$data->number_phone}}</td>
-                    <td class="p-2" id="detail_transaksi">{{$data->detail_transaksi}}</td>
+                    <td class="p-2 min-w-48" id="detail_transaksi">{!! get_item_transaksi($data->detail_transaksi) !!}</td>
                     <td class="p-2">Rp{{number_format($data->total_price)}}</td>
                     <td class="p-2">{{$data->status}}</td>
                 </tr>

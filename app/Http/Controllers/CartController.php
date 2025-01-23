@@ -175,9 +175,9 @@ class CartController extends Controller
     {
         // Mengambil cart berdasarkan user_id
         $cart = Cart::with('items.product')->where('user_id', Auth::id())->first();
-        $order = Order::all()->where('user_id', Auth::id());
-        Log::debug($order);
-        
+        $order = Order::all()->where('user_id', Auth::id())->sortByDesc('created_at');
+        // Log::debug($order);
+        // $order = array_reverse($order);
         // Mengirimkan data cart ke view
         return view('transaksi.index', compact('cart', 'order'));
     }

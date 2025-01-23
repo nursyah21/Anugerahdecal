@@ -10,7 +10,9 @@ use App\Models\Category;
 use App\Models\Laminating;
 use App\Models\Material;
 use App\Models\Lamination;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -19,8 +21,21 @@ class AdminController extends Controller
     {
         $categories = Category::all();
         $products = Product::all();
+        
+        $orders = Order::all();
+        return view('admin.dashboard', compact('orders','categories', 'products'));
+    }
 
-        return view('admin.dashboard', compact('categories', 'products'));
+    public function ubahStatus(Request $request)
+    {
+        $status = $request->input('status');
+        $id = $request->input('id');
+        $order = Order::findOrFail($id);
+        Log::debug($order);
+        $order->status = $status;
+        $order->save();
+
+        return back();
     }
 
     public function kategori()

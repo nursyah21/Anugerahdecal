@@ -41,6 +41,8 @@ Route::middleware(['auth', 'adminMiddleware'])->group(function () {
     Route::post('/admin/bahan', [AdminController::class, 'storeBahan'])->name('admin.storeBahan');
     Route::post('/admin/laminating', [AdminController::class, 'storeLaminating'])->name('admin.storeLaminating');
 
+    Route::post('/admin/dashboard/ubah-status', [AdminController::class, 'ubahStatus'])->name('admin.ubahStatus');
+
     // Rute untuk menyimpan kategori
     Route::post('/admin/categories', [AdminController::class, 'storeCategory'])->name('admin.storeCategory');
 
