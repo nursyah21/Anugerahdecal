@@ -1,2 +1,4 @@
-# *
+buktis/*
+categories/*
+products/*
 !.gitignore

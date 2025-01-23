@@ -48,7 +48,7 @@
         </div> -->
         <h1 class="text-2xl font-semibold">Keranjang Belanja</h1>
 
-        @if ($cart && $cart->items->count() > 0)
+        @if ($cart &&  $cart->items->count() > 0)
         <div class="mt-6">
             <table class="w-full table-auto border-collapse">
                 <thead>
@@ -123,6 +123,9 @@
                         <input type="file" id="image" name="image"
                             class="w-full border-gray-300 rounded-lg px-4 py-2" accept="image/*" required>
                     </div>
+
+                    <input type="hidden" value="{{$detail_transaksi}}" name="detail_transaksi" >
+                    <input type="hidden" value="{{$cart->items->sum('total_price')}}" name="total_price">
 
                     <button type="submit" class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
                         Bayar

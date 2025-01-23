@@ -22,21 +22,21 @@ class CartController extends Controller
         //         'laminating' => 'required',
         //         'quantity' => 'required|integer|min:1', // Pastikan quantity ada dan valid
         // ]);
-            
-        $materials = explode(';',$request->input('material'));
-        $laminations = explode(';',$request->input('lamination'));
+
+        $materials = explode(';', $request->input('material'));
+        $laminations = explode(';', $request->input('lamination'));
         $quantity = $request->input('quantity'); // Ambil nilai quantity dari form
         $action = $request->input('action');
-        $material = $materials[1]; 
+        $material = $materials[1];
         $materialPrice = $materials[0];
-        
+
         $lamination = '';
         $laminationPrice = 0;
-        if(!empty($laminations) && $laminations[0] != ''){
+        if (!empty($laminations) && $laminations[0] != '') {
             $lamination = $laminations[1];
             $laminationPrice = $laminations[0];
         }
-        
+
 
         // // Hitung total harga per item
         $totalPrice = (intval($materialPrice) + intval($laminationPrice)) * intval($quantity);
@@ -57,7 +57,7 @@ class CartController extends Controller
             $existingCartItem->save();
         } else {
             // Jika item belum ada, tambahkan item baru ke keranjang
-            
+
             $cartItem = new CartItem([
                 'product_id' => $product->id,
                 'material' => $material,
@@ -83,8 +83,29 @@ class CartController extends Controller
     {
         // Mengambil cart berdasarkan user_id
         $cart = Cart::with('items.product')->where('user_id', Auth::id())->first();
+        $detail_transaksi = '';
+
+        if($cart &&  $cart->items->count() > 0){
+
+            foreach ($cart->items as $item) {
+                $name = $item->product->name;
+                $bahan = $item->material;
+                $laminating = $item->lamination;
+                $quantity = $item->quantity;
+                $total_price = $item->total_price;
+    
+                $detail_transaksi = ',' . 
+                    $name . ';' .
+                    $bahan . ';' .
+                    $laminating . ';' .
+                    $quantity . ';' .
+                    $total_price;
+            }
+        }
+
+
         // Mengirimkan data cart ke view
-        return view('cart.index', compact('cart'));
+        return view('cart.index', compact('cart', 'detail_transaksi'));
     }
 
     // Memperbarui jumlah produk dalam keranjang
@@ -113,15 +134,15 @@ class CartController extends Controller
         return response()->json(['count' => $count]);
     }
 
-    public function test1(){
+    public function test1()
+    {
         return redirect()->route('cart.index');
     }
 
     public function checkout(Request $request)
-    { 
-        $randomString = bin2hex(random_bytes(4)); 
-        $orderId = "ORDER_" . date('YmdHis') . "_" . $randomString; 
-        
+    {
+        $orderId = "ORDER_" . date('YmdHis');
+
         $imagePath = $request->file('image')->store('buktis', 'public');
 
         Order::create([
@@ -131,12 +152,22 @@ class CartController extends Controller
             'address' => $request->input('address'),
             'number_phone' => $request->input('number_phone'),
             'bukti_transfer' => $imagePath,
+            'detail_transaksi' => $request->input('detail_transaksi'),
+            'total_price' => $request->input('total_price'),
             'status' => 'menunggu konfirmasi'
         ]);
 
+        // $cart = Cart::findOrFail('');
+        // $cartItem->delete();
+
+        $cart = Cart::where('user_id', Auth::id());
+        $cart->each(function ($data){
+            $data->delete();
+        });
+
         return back()->with('success', 'Data Berhasil Masuk ke transaksi');
         // redirect()->route('cart.index');
-    } 
+    }
 
 
     // Melihat isi keranjang
@@ -144,7 +175,10 @@ class CartController extends Controller
     {
         // Mengambil cart berdasarkan user_id
         $cart = Cart::with('items.product')->where('user_id', Auth::id())->first();
+        $order = Order::all()->where('user_id', Auth::id());
+        Log::debug($order);
+        
         // Mengirimkan data cart ke view
-        return view('transaksi.index', compact('cart'));
+        return view('transaksi.index', compact('cart', 'order'));
     }
 }

@@ -46,94 +46,45 @@
                 </div>
             </div>
         </div> -->
-        <h1 class="text-2xl font-semibold">Keranjang Belanja</h1>
+        <h1 class="text-2xl font-semibold">Daftar Transaksi</h1>
 
-        @if ($cart && $cart->items->count() > 0)
+        @if ($order && $order->count() > 0)
         <div class="mt-6">
-            <table class="w-full table-auto border-collapse">
+            <table class="w-full table-auto border-collapse overflow-auto">
                 <thead>
                     <tr>
-                        <th>Produk</th>
-                        <th>Material</th>
-                        <th>Laminasi</th>
-                        <th>Harga</th>
-                        <th>Jumlah</th>
-                        <th>Total</th>
-                        <th>Aksi</th>
+                        <th>OrderId</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>No Hp</th>
+                        <th>Item</th>
+                        <th>Total Harga</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cart->items as $item)
-                    <tr>
-                        <td>{{ $item->product->name }}</td>
-                        <td>{{ $item->material }}</td>
-                        <td>{{ $item->lamination }}</td>
-                        <td id='total' value="{{$item->total_price}}">Rp {{ number_format($item->total_price / $item->quantity ) }}</td>
-                        <td>
-                            <form action="{{ route('cart.update', $item->id) }}" method="POST">
-                                @csrf
-                                <input type="number" name="quantity" value="{{ $item->quantity }}"
-                                    min="1" class="w-12 min-w-24">
-                                <button type="submit" class="text-blue-500">Update</button>
-                            </form>
-                        </td>
-                        <td>Rp {{ number_format($item->total_price) }}</td>
-                        <td>
-                            <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                <button type="submit" class="text-red-500">Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
+        
+                @foreach ($order as $idx => $data)
+                <tr>
+                    <td class="p-2">{{$data->order_id}}</td>
+                    <td class="p-2">{{$data->name}}</td>
+                    <td class="p-2">{{$data->address}}</td>
+                    <td class="p-2">{{$data->number_phone}}</td>
+                    <td class="p-2" id="detail_transaksi">{{$data->detail_transaksi}}</td>
+                    <td class="p-2">Rp{{number_format($data->total_price)}}</td>
+                    <td class="p-2">{{$data->status}}</td>
+                </tr>
+                @endforeach
+                    
                 </tbody>
             </table>
-
-            <div class="mt-6 text-right">
-                <h2 class="text-xl font-semibold">Total Harga: Rp {{ number_format($cart->items->sum('total_price')) }}</h2>
-            </div>
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold">Detail Pembayaran</h3>
-                <form class="flex flex-col gap-y-4" action="{{ route('cart.checkout') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-
-                    <div>
-                        <label for="name" class="block font-semibold">Nama Pembeli</label>
-                        <input type="text" id="name" name="name" value="{{Auth::user()->name }}"
-                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                    </div>
-
-                    <div>
-                        <label for="address" class="block font-semibold">Alamat</label>
-                        <input type="text" id="name" name="address"
-                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                    </div>
-
-                    <div>
-                        <label for="number_phone" class="block font-semibold">Nomor Hp</label>
-                        <input type="text" id="number_phone" name="number_phone"
-                            class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                    </div>
-
-                    <div>
-                        <label for="image" class="block font-semibold">Bukti Pembayaran</label>
-                        <span>Transfer ke BCA 084532546 <br>Atas Nama: Anugrah Decal</span>
-                        <input type="file" id="image" name="image"
-                            class="w-full border-gray-300 rounded-lg px-4 py-2" accept="image/*" required>
-                    </div>
-
-                    <button type="submit" class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">
-                        Bayar
-                    </button>
-                </form>
-            </div>
+            
         </div>
         @else
-        <p>Keranjang kamu kosong.</p>
+        <p>Transaksi kamu kosong.</p>
         @endif
     </main>
+
     <footer class="bg-gradient-to-r from-[#009E84] to-[#00382F] text-white py-6">
         <div class="container mx-auto grid grid-cols-3 gap-6">
             <div>
@@ -160,6 +111,8 @@
         </div>
     </footer>
     <script>
+        document.querySelector('#detail_transaksi')
+
         // preview gambar
         document.querySelectorAll('input[type="file"]').forEach((input) => {
             input.addEventListener('change', (e) => {
