@@ -43,7 +43,9 @@
                     <tbody>
                         @foreach($orders as $idx => $data)
                         <tr>
-                            <td class="p-2">{{substr($data->order_id,6)}}</td>
+                            <td class="p-2">{{substr($data->order_id,6)}} <br>
+                            <a href="{{ Storage::url($data->bukti_transfer) }}" class="text-blue-800 hover:underline">bukti transfer</a>
+                        </td>
                             <td class="p-2">nama: {{$data->name}}
                                 <br>alamat: {{$data->address}}
                                 <br>no hp: {{$data->number_phone}}

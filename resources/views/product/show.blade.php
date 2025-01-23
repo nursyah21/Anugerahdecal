@@ -63,14 +63,14 @@
         <div class="flex items-center justify-center">
             <div class="w-full md:w-3/4 lg:w-2/3 bg-white p-8 rounded-lg shadow-md">
                 <div class="flex flex-wrap md:flex-nowrap mb-8">
-                    <div class="w-full md:w-1/3 pr-4">
+                    <div class="w-full  pr-4">
                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                             class="w-full h-auto rounded-lg border">
                     </div>
 
                     <div class="w-full md:w-2/3">
                         <h1>{{ $product->name }}</h1>
-                        <p>Estimasi Harga: {{ count_range($product->bahan, $product->laminating) }}</p>
+                        <p>{{ count_range($product->bahan, $product->laminating) }}</p>
 
                         <div class="mt-6">
                             <!-- Form untuk menambahkan produk ke keranjang -->
