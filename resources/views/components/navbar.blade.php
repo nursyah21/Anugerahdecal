@@ -51,7 +51,7 @@
 
             @if (Auth::check())
             @if (Auth::user()->usertype == 'admin')
-            <a href="{{ Auth::user()->usertype == 'admin' ? zroute('admin.dashboard') : route('dashboard') }}"
+            <a href="{{ Auth::user()->usertype == 'admin' ? route('admin.dashboard') : route('dashboard') }}"
                 :active="{{ Auth::check() ? (Auth::user()->usertype == 'admin' ? 'request()->routeIs(\'admin.dashboard\')' : 'request()->routeIs(\'dashboard\')') : 'request()->routeIs(\'login\')' }}"
                 class="relative hover:text-gray-200">
                 <i class="fas fa-user text-2xl"></i>
