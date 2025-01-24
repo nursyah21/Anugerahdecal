@@ -29,10 +29,94 @@
                 {{-- Form Tambah Stiker --}}
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold">Tambah Stiker</h3>
+                    @if($id && $id->name)
+                    <form action="{{ route('admin.updateStiker', $id->id) }}" method="POST" enctype="multipart/form-data"
+                        class="space-y-4">
+                        @csrf
+                        @method('PUT')
+                        {{-- Nama Produk --}}
+                        <div>
+                            <label for="name" class="block font-semibold">Nama Produk</label>
+                            <input type="text" value="{{$id->name}}" id="name" name="name"
+                                class="w-full border-gray-300 rounded-lg px-4 py-2" required>
+                        </div>
+
+                        {{-- Kategori --}}
+                        <div>
+                            <label for="category_id" class="block font-semibold">
+                                Kategori
+                                <!-- <span class="font-normal"> -->
+                                    saat ini: {{collect($categories)->where('id', $id->category_id)->pluck('name')[0]}}
+                                <!-- </span> -->
+                            </label>
+                            <select id="category_id" name="category_id"
+                                class="w-full border-gray-300 rounded-lg px-4 py-2" required>
+                                <option value="" selected disabled >Pilih Kategori</option>
+                                @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" >{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
+                        {{-- Gambar Produk --}}
+                        <div>
+                            <label for="image" class="block font-semibold">Gambar Produk</label>
+                            <img src="{{Storage::url($id->image)}}" alt="" class="w-48 h-24">
+                            <input type="file" id="image" name="image"
+                                class="w-full border-gray-300 rounded-lg px-4 py-2" accept="image/*" >
+                        </div>
+
+                        {{-- Bahan Stiker --}}
+                        <div>
+                            <h3 class="font-semibold">Bahan Stiker</h3>
+                            <!-- <p>Saat ini: {{$id->bahan}}</p> -->
+                            <div class="flex gap-x-4">
+                                @foreach ($bahans as $bahan)
+                                <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
+                                    <input type="checkbox" name="bahan[{{$bahan->id}}]" onclick="addNewBahan(this, '{{$bahan->id}}','{{$bahan->name}}')" /> <br />
+                                    {{$bahan->name}}
+                                </div>
+                                @endforeach
+                            </div>
+
+                            <div id="list-stiker" class="my-4">
+
+                            </div>
+                        </div>
+
+                        {{-- Laminasi --}}
+                        <div>
+                            <h3 class="font-semibold">Laminasi</h3>
+                            <!-- <p>Saat ini: {{$id->laminasi}}</p> -->
+
+                            <div class="flex gap-4">
+                                @foreach ($laminatings as $laminating)
+                                <div class="bg-gray-100 p-4 rounded-lg text-center max-w-[100px]">
+                                    <input type="checkbox" name="laminating[{{$laminating->id}}]" onclick="addNewLaminating(this, '{{$laminating->id}}','{{$laminating->name}}')" /> <br />
+                                    {{$laminating->name}}
+                                </div>
+                                @endforeach
+                            </div>
+                            <div id="list-laminating" class="my-4">
+
+                            </div>
+                        </div>
+
+                        {{-- Deskripsi --}}
+                        <div>
+                            <label for="description" class="block font-semibold">Deskripsi</label>
+                            <textarea id="description" value="{{$id->description}}" name="description" class="w-full border-gray-300 rounded-lg px-4 py-2">{{$id->description}}</textarea>
+                        </div>
+
+                        {{-- Tombol Submit --}}
+                        <button type="submit"
+                            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
+                    </form>
+                    @else
                     <form action="{{ route('admin.storeProduct') }}" method="POST" enctype="multipart/form-data"
                         class="space-y-4">
                         @csrf
-
                         {{-- Nama Produk --}}
                         <div>
                             <label for="name" class="block font-semibold">Nama Produk</label>
@@ -109,6 +193,7 @@
                         <button type="submit"
                             class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
                     </form>
+                    @endif
                 </div>
             </div>
 
@@ -123,9 +208,9 @@
                         <h3 class="font-semibold">{{ count_range($product->bahan, $product->laminating) }}</h3>
                         <p class="text-gray-600">{{ $product->description }}</p>
                     </div>
-                    <div class="flex gap-2 mt-4">
-                        {{-- <a href="{{ route('admin.editProduct', $product->id) }}"
-                        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">UPDATE</a> --}}
+                    <div class="flex gap-x-4 mt-4">
+                        <a href="{{ route('admin.updateStiker', $product->id) }}"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">UPDATE</a>
                         <form action="{{ route('admin.deleteProduct', $product->id) }}" method="POST"
                             onsubmit="return confirm('Yakin ingin menghapus produk ini?');">
                             @csrf
@@ -143,7 +228,7 @@
 
 
     <script>
-        function countPrice(data){
+        function countPrice(data) {
             console.log(data)
             return '1000'
         }

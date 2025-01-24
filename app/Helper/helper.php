@@ -8,6 +8,15 @@ function format_product($item)
     return $data[1].'  -  Rp'.number_format(intval($data[0]));
 }
 
+function format_products($item)
+{
+    $item = explode(',', substr($item,1));
+    $data = '';
+    return $data;
+    // $data = explode(';', $item);
+    // return $data[1].'  -  Rp'.number_format(intval($data[0]));
+}
+
 function get_item_transaksi($item)
 {
     $datas = explode(',', substr($item, 1));

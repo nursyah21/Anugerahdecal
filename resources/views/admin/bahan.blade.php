@@ -29,6 +29,19 @@
                 {{-- Form Tambah Bahan --}}
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold">Tambah Bahan</h3>
+                    @if($id && $id->name)
+                    <form action="{{ route('admin.updateBahan', $id->id) }}" method="POST" enctype="multipart/form-data"
+                        class="mt-4">
+                        @csrf
+                        @method('PUT')
+                        <div class="flex gap-4 items-center">
+                            <input type="text" value="{{$id->name}}" name="name" placeholder="Bahan"
+                                class="w-full border-gray-300 rounded-lg px-4 py-2" required>
+                            <button type="submit"
+                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Update</button>
+                        </div>
+                    </form>
+                    @else
                     <form action="{{ route('admin.storeBahan') }}" method="POST" enctype="multipart/form-data"
                         class="mt-4">
                         @csrf
@@ -39,19 +52,23 @@
                                 class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
                         </div>
                     </form>
+                    @endif
                 </div>
 
                 {{-- Daftar Kategori --}}
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     @foreach ($bahans as $bahan)
-                    <div class="flex flex-col text-center items-center bg-gray-100 p-4 rounded-lg shadow">    
-                    {{$bahan->name}}
-                       <form action="{{ route('admin.deleteBahan', $bahan->id) }}" method="POST"
-                            onsubmit="return confirm('Yakin ingin menghapus bahan ini?');" class="mt-2">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:text-red-600">Hapus</button>
-                        </form>
+                    <div class="flex flex-col text-center items-center bg-gray-100 p-4 rounded-lg shadow">
+                        {{$bahan->name}}
+                        <div class="flex gap-x-4 items-center mt-2">
+                            <a href="{{route('admin.idBahan', $bahan->id)}}">Edit</a>
+                            <form action="{{ route('admin.deleteBahan', $bahan->id) }}" method="POST"
+                                onsubmit="return confirm('Yakin ingin menghapus bahan ini?');" >
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-600">Hapus</button>
+                            </form>
+                        </div>
                     </div>
                     @endforeach
                 </div>

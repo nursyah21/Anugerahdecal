@@ -35,8 +35,17 @@ Route::middleware(['auth', 'adminMiddleware'])->group(function () {
     
     Route::get('/admin/kategori', [AdminController::class, 'kategori'])->name('admin.kategori');
     Route::get('/admin/stiker', [AdminController::class, 'stiker'])->name('admin.stiker');
+    Route::get('/admin/stiker/{id}', [AdminController::class, 'idStiker'])->name('admin.idStiker');
+    Route::put('/admin/stiker/{id}', [AdminController::class, 'updateStiker'])->name('admin.updateStiker');
+    
     Route::get('/admin/laminating', [AdminController::class, 'laminating'])->name('admin.laminating');
+    Route::get('/admin/laminating/{id}', [AdminController::class, 'idLaminating'])->name('admin.idLaminating');
+    Route::put('/admin/laminating/{id}', [AdminController::class, 'updateLaminating'])->name('admin.updateLaminating');
+    
+    
     Route::get('/admin/bahan', [AdminController::class, 'bahan'])->name('admin.bahan');
+    Route::get('/admin/bahan/{id}', [AdminController::class, 'idBahan'])->name('admin.idBahan');
+    Route::put('/admin/bahan/{id}', [AdminController::class, 'updateBahan'])->name('admin.updateBahan');
     
     Route::post('/admin/bahan', [AdminController::class, 'storeBahan'])->name('admin.storeBahan');
     Route::post('/admin/laminating', [AdminController::class, 'storeLaminating'])->name('admin.storeLaminating');

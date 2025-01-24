@@ -21,9 +21,9 @@ class AdminController extends Controller
     {
         $categories = Category::all();
         $products = Product::all();
-        
+
         $orders = Order::all();
-        return view('admin.dashboard', compact('orders','categories', 'products'));
+        return view('admin.dashboard', compact('orders', 'categories', 'products'));
     }
 
     public function ubahStatus(Request $request)
@@ -58,10 +58,10 @@ class AdminController extends Controller
     public function updateCategory($id, Request $request)
     {
         $category = Category::findOrFail($id);
-        
+
         $category->name = $request->input('name');
         $imagePath = $request->file('image') ? $request->file('image')->store('categories', 'public') : null;
-        if($imagePath){
+        if ($imagePath) {
             $category->image = $imagePath;
         }
         $category->save();
@@ -80,22 +80,52 @@ class AdminController extends Controller
         $products = Product::all();
         $bahans = Bahan::all();
         $laminatings = Laminating::all();
+        $id = '';
 
-        return view('admin.stiker', compact('categories', 'products', 'bahans', 'laminatings'));
+        return view('admin.stiker', compact('id', 'categories', 'products', 'bahans', 'laminatings'));
+    }
+
+    public function idStiker($id)
+    {
+        $categories = Category::all();
+        $products = Product::all();
+        $bahans = Bahan::all();
+        $laminatings = Laminating::all();
+        $id = Product::findOrFail($id);
+
+        return view('admin.stiker', compact('id', 'categories', 'products', 'bahans', 'laminatings'));
     }
 
     public function laminating()
     {
         $laminatings = Laminating::all();
+        $id = '';
 
-        return view('admin.laminating', compact('laminatings'));
+        return view('admin.laminating', compact('id', 'laminatings'));
+    }
+
+    public function idLaminating($id)
+    {
+        $laminatings = Laminating::all();
+        $id = Laminating::findOrFail($id);
+
+        return view('admin.laminating', compact('id', 'laminatings'));
     }
 
     public function bahan()
     {
         $bahans = Bahan::all();
+        $id = '';
 
-        return view('admin.bahan', compact('bahans'));
+        return view('admin.bahan', compact('id', 'bahans'));
+    }
+
+    public function idBahan($id)
+    {
+        $bahans = Bahan::all();
+        $id = Bahan::findOrFail($id);
+
+        return view('admin.bahan', compact('id', 'bahans'));
     }
 
     public function storeBahan(Request $request)
@@ -113,19 +143,41 @@ class AdminController extends Controller
         return back();
     }
 
+    public function updateBahan($id, Request $request)
+    {
+        $bahan = Bahan::findOrFail($id);
+        // $request->validate([
+        //     'name' => 'required|string|max:255'
+        // ]);
+        $bahan->name = $request->input('name');
+        $bahan->save();
+
+        return redirect()->route('admin.bahan');
+    }
+
     public function storeLaminating(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255'
         ]);
 
-        // $imagePath = $request->file('image') ? $request->file('image')->store('categories', 'public') : null;
-
         Laminating::create([
             'name' => $request->name
         ]);
 
         return back();
+    }
+
+    public function updateLaminating($id, Request $request)
+    {
+        $laminating = Laminating::findOrFail($id);
+        // $request->validate([
+        //     'name' => 'required|string|max:255'
+        // ]);
+        $laminating->name = $request->input('name');
+        $laminating->save();
+
+        return redirect()->route('admin.laminating');
     }
 
     public function storeCategory(Request $request)
@@ -162,17 +214,17 @@ class AdminController extends Controller
         $bahans = '';
         $laminatings = '';
 
-        if($request->bahan_price){
-            foreach($request->bahan_price as $key => $data){
-                foreach($data as $price => $name){
-                    $bahans = $bahans.','.$name.';'.$price;                
+        if ($request->bahan_price) {
+            foreach ($request->bahan_price as $key => $data) {
+                foreach ($data as $price => $name) {
+                    $bahans = $bahans . ',' . $name . ';' . $price;
                 }
             }
         }
-        if($request->laminating_price){
-            foreach($request->laminating_price as $key => $data){
-                foreach($data as $price => $name){
-                    $laminatings = $laminatings.','.$name.';'.$price;                
+        if ($request->laminating_price) {
+            foreach ($request->laminating_price as $key => $data) {
+                foreach ($data as $price => $name) {
+                    $laminatings = $laminatings . ',' . $name . ';' . $price;
                 }
             }
         }
@@ -184,18 +236,71 @@ class AdminController extends Controller
         Product::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
-        //     'brand' => $request->brand,
+            //     'brand' => $request->brand,
             'image' => $imagePath,
             'description' => $request->description,
             'laminating' => $laminatings,
             'bahan' => $bahans
-        //     'material' => $request->material,
-        //     'material_price' => $request->material_price,
-        //     'lamination' => $request->lamination,
-        //     'lamination_price' => $request->lamination_price,
         ]);
 
         return back()->with('success', 'Produk berhasil ditambahkan!');
+    }
+
+    public function updateStiker($id, Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            // 'brand' => 'required|string|max:255',
+            // 'image' => 'required|image|max:1024',
+            'description' => 'nullable|string',
+            // 'material' => 'required|string|max:255',        // Validasi untuk material
+            // 'material_price' => 'required|numeric',         // Validasi untuk harga material
+            // 'lamination' => 'required|string|max:255',      // Validasi untuk laminasi
+            // 'lamination_price' => 'required|numeric',       // Validasi untuk harga laminasi
+        ]);
+
+        $bahans = '';
+        $laminatings = '';
+
+        if ($request->bahan_price) {
+            foreach ($request->bahan_price as $key => $data) {
+                foreach ($data as $price => $name) {
+                    $bahans = $bahans . ',' . $name . ';' . $price;
+                }
+            }
+        }
+        if ($request->laminating_price) {
+            foreach ($request->laminating_price as $key => $data) {
+                foreach ($data as $price => $name) {
+                    $laminatings = $laminatings . ',' . $name . ';' . $price;
+                }
+            }
+        }
+
+        // Simpan gambar produk
+        $imagePath = $request->file('image') ? $request->file('image')->store('products', 'public') : null;
+
+        $product = Product::findOrFail($id);
+        $product->name = $request->input('name');
+        $product->category_id = $request->input('category_id');
+
+        if ($imagePath) {
+            $product->image = $imagePath;
+        }
+
+        $product->description = $request->input('description');
+        if ($bahans) {
+            $product->bahan = $bahans;
+        }
+
+        if ($laminatings) {
+            $product->laminating = $laminatings;
+        }
+        
+        $product->save();
+
+        return redirect()->route('admin.stiker');
     }
 
 
