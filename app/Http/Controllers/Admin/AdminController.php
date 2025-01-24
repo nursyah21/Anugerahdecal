@@ -42,8 +42,36 @@ class AdminController extends Controller
     {
         $categories = Category::all();
         $products = Product::all();
+        $id = '';
+        return view('admin.kategori', compact('categories', 'products', 'id'));
+    }
 
-        return view('admin.kategori', compact('categories', 'products'));
+    public function idCategori($id)
+    {
+        $categories = Category::all();
+        $products = Product::all();
+        $id = Category::findOrFail($id);
+
+        return view('admin.kategori', compact('categories', 'products', 'id'));
+    }
+
+    public function updateCategory($id, Request $request)
+    {
+        $category = Category::findOrFail($id);
+        
+        $category->name = $request->input('name');
+        $imagePath = $request->file('image') ? $request->file('image')->store('categories', 'public') : null;
+        if($imagePath){
+            $category->image = $imagePath;
+        }
+        $category->save();
+
+        // Category::create([
+        //     'name' => $request->name,
+        //     'image' => $imagePath,
+        // ]);
+
+        return redirect()->route('admin.kategori');
     }
 
     public function stiker()

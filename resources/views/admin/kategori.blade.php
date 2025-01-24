@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Admin Dashboard') }}
-        </h2>        
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -11,57 +11,75 @@
 
                 {{-- Pesan Error dan Sukses --}}
                 @if ($errors->any())
-                    <div class="bg-red-100 text-red-600 p-4 rounded-lg mb-4">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
+                <div class="bg-red-100 text-red-600 p-4 rounded-lg mb-4">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
                 @endif
 
                 @if (session('success'))
-                    <div class="bg-green-100 text-green-600 p-4 rounded-lg mb-4">
-                        {{ session('success') }}
-                    </div>
+                <div class="bg-green-100 text-green-600 p-4 rounded-lg mb-4">
+                    {{ session('success') }}
+                </div>
                 @endif
 
                 {{-- Form Tambah Kategori --}}
                 <div class="mb-6">
                     <h3 class="text-lg font-semibold">Tambah Kategori Stiker</h3>
-                    <form action="{{ route('admin.storeCategory') }}" method="POST" enctype="multipart/form-data"
-                        class="mt-4">
-                        @csrf
-                        <div class="flex gap-4 items-center">
+                    <div class="flex gap-4 items-center">
+                        @if($id && $id->name)
+                        <form action="{{ route('admin.updateCategory', $id->id) }}" method="POST" enctype="multipart/form-data"
+                            class="flex gap-4 w-full items-center mt-4">
+                            @csrf
+                            @method('PUT')
+                            <input type="text" value="{{$id->name}}" name="name" placeholder="Kategori Motor"
+                                class="w-full border-gray-300 rounded-lg px-4 py-2" required>
+                            <input type="file" name="image" class="border-gray-300 rounded-lg" accept="image/*">
+
+                            <button type="submit"
+                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Update</button>
+                        </form>
+                        @else
+                        <form action="{{ route('admin.storeCategory') }}" method="POST" enctype="multipart/form-data"
+                            class="flex gap-4 w-full items-center mt-4">
+                            @csrf
                             <input type="text" name="name" placeholder="Kategori Motor"
                                 class="w-full border-gray-300 rounded-lg px-4 py-2" required>
                             <input type="file" name="image" class="border-gray-300 rounded-lg" accept="image/*">
                             <button type="submit"
                                 class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
-                        </div>
-                    </form>
+                        </form>
+                        @endif
+                    </div>
                 </div>
 
                 {{-- Daftar Kategori --}}
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     @foreach ($categories as $category)
-                        <div class="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow">
-                            <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}"
-                                class="w-16 h-16 rounded-lg">
-                            <span class="text-center mt-2 font-semibold">{{ $category->name }}</span>
+                    <div class="flex flex-col items-center bg-gray-100 p-4 rounded-lg shadow">
+                        <img src="{{ Storage::url($category->image) }}" alt="{{ $category->name }}"
+                            class="w-16 h-16 rounded-lg">
+                        <span class="text-center mt-2 font-semibold">{{ $category->name }}</span>
+                        <div class="flex gap-x-4 items-center mt-2">
+                            <a href="{{route('admin.idCategory', $category->id)}}">Edit</a>
+
                             <form action="{{ route('admin.deleteCategory', $category->id) }}" method="POST"
-                                onsubmit="return confirm('Yakin ingin menghapus kategori ini?');" class="mt-2">
+                                onsubmit="return confirm('Yakin ingin menghapus kategori ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-500 hover:text-red-600">Hapus</button>
                             </form>
                         </div>
+                    </div>
                     @endforeach
                 </div>
 
-             
+
+            </div>
         </div>
-    </div>
     </div>
 
 
