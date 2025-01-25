@@ -48,7 +48,7 @@
                             @csrf
                             <input type="text" name="name" placeholder="Kategori Motor"
                                 class="w-full border-gray-300 rounded-lg px-4 py-2" required>
-                            <input type="file" name="image" class="border-gray-300 rounded-lg" accept="image/*">
+                            <input type="file" name="image" class="border-gray-300 rounded-lg" accept="image/*" required>
                             <button type="submit"
                                 class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Simpan</button>
                         </form>
