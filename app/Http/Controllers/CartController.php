@@ -94,7 +94,7 @@ class CartController extends Controller
                 $quantity = $item->quantity;
                 $total_price = $item->total_price;
     
-                $detail_transaksi = ',' . 
+                $detail_transaksi = $detail_transaksi.',' . 
                     $name . ';' .
                     $bahan . ';' .
                     $laminating . ';' .

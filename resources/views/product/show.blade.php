@@ -43,7 +43,7 @@
         @endif
 
         <div id="warningModal"
-            class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50 hidden">
+            class="fixed inset-0  items-center justify-center bg-gray-500 bg-opacity-75 z-50 hidden">
             <div class="bg-white rounded-lg p-6 w-96">
                 <div class="flex justify-between items-center">
                     <h3 class="text-lg font-semibold text-yellow-600">Peringatan!</h3>
